@@ -1,0 +1,48 @@
+      *
+     Dbirth            s               d
+     Dage              s              3i 0
+
+     DCALC_AGE         PR             3i 0
+     Db_date                           D
+      *
+      /free
+          exsr declareCursor;
+          exsr openCursor;
+          exsr fetchCursor;
+
+          dow sqlcod <> 100;
+              dsply %char(birth);
+              age = CALC_AGE(birth);
+              dsply %char(age) ;
+              exsr fetchCursor;
+          enddo;
+          exsr closeCursor;
+
+          *inlr = *on;
+          return;
+      /end-free
+      *-----------------------------------------------------------------------*
+     c     declareCursor begsr
+     c/EXEC SQL
+     c+ DECLARE CURSOR1 CURSOR FOR SELECT BIRTH_CLI
+     c+ FROM DEMO/CLIENTS
+     c/END-EXEC
+     c                   endsr
+      *-----------------------------------------------------------------------*
+     c     openCursor    begsr
+     c/EXEC SQL
+     c+ OPEN CURSOR1
+     c/END-EXEC
+     c                   endsr
+      *-----------------------------------------------------------------------*
+     c     fetchCursor   begsr
+     c/EXEC SQL
+     c+ FETCH CURSOR1 INTO :birth
+     c/END-EXEC
+     c                   endsr
+      *-----------------------------------------------------------------------*
+     c     closeCursor   begsr
+     c/EXEC SQL
+     c+ CLOSE CURSOR1
+     c/END-EXEC
+     c                   endsr

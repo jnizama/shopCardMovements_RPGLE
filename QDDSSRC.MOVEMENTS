@@ -1,0 +1,7 @@
+                                            UNIQUE
+                R MOVEMENTR
+                  ID_MOV        10P
+                  CARD_MOV  R               REFFLD(ID_CRD DEMO/CARDS)
+                  VALUE_MOV      5P 2       COMP(GT 0)
+                  DATE_MOV        L
+                K ID_MOV

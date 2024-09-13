@@ -1,0 +1,115 @@
+     FSHW_SFL   CF   E             workstn sfile(LIST:rrn) indds(inds)
+      *
+     Dinds             ds
+     DF3Exit                           n   overlay(inds:3)
+     Di30SDSP                          n   overlay(inds:30)
+     Di31SDSPCTL                       n   overlay(inds:31)
+     Di33SEND                          n   overlay(inds:33)
+     Di35SCLR                          n   overlay(inds:35)
+     Di90NoData                   n   overlay(inds:90)
+      *
+     DCLICRDR        E ds                  extname(CLICARD)
+      *
+      /free
+         ID_CLI = *ZEROS;			* places zeros in this field
+         write BOTTOM;				* displays this record on the screen
+         write TOP;
+         exSr INI_SFL;				* subroutine that iniciates the subfile
+         exFmt SFLCTL;				* displays this record on the screen and waits for a key to be pressed
+
+         dow not(F3Exit);			* while the F3 key isn't pressed
+            exSr INI_SFL;			
+            exSr LOAD_SFL;			* loads the subfile data to the screen 
+            exFmt SFLCTL;			* displays this record on the screen and waits for a key to be pressed
+            if F3Exit;
+               leave;
+            endif;
+
+            i90NoData = *off;
+            if i30SDSP;				* if a record is changed on the subfile (in this case only the Options column can be changed)
+               exSr WRK_SFL;		* deals with the changes on the subfile
+            endif;
+         enddo;
+
+         *inlr = *on;
+         return;
+      /end-free
+
+      *------------------------------------------------------------------------*
+     c     INI_SFL       begsr
+      /free
+          OPTION = ' ';
+          i30SDSP    = *OFF;
+          i31SDSPCTL = *OFF;
+          i33SEND    = *OFF;
+          i35SCLR    = *ON;
+          WRITE SFLCTL;
+          i31SDSPCTL  = *ON ;
+          i33SEND     = *ON;
+          i35SCLR     = *OFF;
+          rrn         = 0;
+      /end-free
+     c                   endsr
+      *------------------------------------------------------------------------*
+     c     LOAD_SFl      begsr
+      /free
+          exsr declareCursor;
+          i90NoData = *on;
+          exsr openCursor;
+          exsr fetchCursor;
+          dow SQLSTT = '00000';
+              i90NoData = *off;
+              rrn = rrn + 1;
+              write LIST;
+              exsr fetchCursor;
+          enddo;
+
+          i30SDSP = rrn > 0;
+          rrn = 1;
+          exsr closeCursor;
+      /end-free
+     c                   endsr
+      *------------------------------------------------------------------------*
+     c     WRK_SFL       begsr
+      /free
+         readc LIST;					* retrives a record from the LIST
+         dow not(%EOF);					* while it doesn't get to the end of the list
+             SELECT;					* checks to see the value on the OPTION field
+                  * here we only display the number that was selected
+				  * but you could define some options to work with the subfile
+				  * and code the option's result.
+				  WHEN OPTION = '1';	
+                     dsply '1';
+                  WHEN OPTION = '2';
+                     dsply '2';
+             ENDSL;
+             readc LIST;				* reads the next record from the subfile LIST
+         enddo;
+      /end-free
+     c                   endsr
+      *------------------------------------------------------------------------*
+     c     declareCursor begsr
+     c/EXEC SQL
+     c+ DECLARE CURSORSFL CURSOR FOR SELECT * FROM DEMO/CLICARD
+     c+ WHERE ID_CLI = :ID_CLI
+     c+ ORDER BY ID_CRD
+     c/END-EXEC
+     c                   endsr
+      *------------------------------------------------------------------------*
+     c     openCursor    begsr
+     c/EXEC SQL
+     c+ OPEN CURSORSFL
+     C/END-EXEC
+     c                   endsr
+      *------------------------------------------------------------------------*
+     c     fetchCursor   begsr
+     c/EXEC SQL
+     c+ FETCH CURSORSFL INTO :CLICRDR
+     c/END-EXEC
+     c                   endsr
+      *------------------------------------------------------------------------*
+     c     closeCursor   begsr
+     c/EXEC SQL
+     c+ CLOSE CURSORSFL
+     c/END-EXEC
+     c                   endsr

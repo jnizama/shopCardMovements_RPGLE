@@ -1,0 +1,58 @@
+     * Opening the display file
+	 FSHW_CLI   CF   E             workstn indds(indicators)
+	 
+     * Renaming the indicators. We only defined the 03 indicator
+	 Dindicators       ds
+     DF3Exit                           n   overlay(indicators:03)
+	 
+	 * Data Structure (ds) that represents the fields from the CLIENTS table
+     DCLIR           E ds                  extname(CLIENTS)
+
+      /free
+         write TOP;				* Writes the record on the screen
+         write BOTTOM;
+         exSr declareCursor;	* The clients are fetched using a cursor
+         exSr openCursor;
+
+         dow not(F3Exit);		* While the F3Exit indicator isn't pressed
+             exSr fetchCursor;	* fetches a client from the table.
+             if sqlcod = 100;	* If no client is found or the end of table is reached 
+                leave;			* leaves the cicle (same function as break in C++).
+             endif;
+             exFmt MIDDLE;		* exFmt writes a regist in the screen and waits for a key to be pressed
+             if F3Exit;
+                leave;
+             endif;
+         enddo;
+         exSr closeCursor;		* Closes the cursor
+
+         *inlr = *on;
+         return;
+      /end-free
+     
+      *---------------------------------------*
+     c     declareCursor begsr
+     c/EXEC SQL
+     c+ DECLARE CURSOR1 CURSOR FOR SELECT * FROM DEMO/CLIENTS
+     c/END-EXEC
+     c                   endsr
+      *---------------------------------------*
+     c     openCursor    begsr
+     c/EXEC SQL
+     c+ OPEN CURSOR1
+     c/END-EXEC
+     c                   endsr
+      *---------------------------------------*
+     c     fetchCursor   begsr
+     c/EXEC SQL
+     c+ FETCH CURSOR1 INTO :CLIR
+     c/END-EXEC
+     c                   endsr
+      *---------------------------------------*
+     c     closeCursor   begsr
+     c/EXEC SQL
+     c+ CLOSE CURSOR1
+     c/END-EXEC
+     c                   endsr
+    
+

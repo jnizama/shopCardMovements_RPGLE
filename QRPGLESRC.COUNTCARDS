@@ -1,0 +1,22 @@
+      *
+     c/EXEC SQL
+     c+ Set Option Commit = *NONE,
+     c+            CloSQLCsr = *ENDACTGRP,
+     c+            DatFmt = *EUR,
+     c+            TimFmt = *EUR
+     c/END-EXEC
+      *
+     Dcount            s              5P 0 INZ(0)
+      *
+      /free
+         exSr getNrCards;
+         dsply count;
+         *inlr = *on;
+      /end-free
+      *---------------------------------------------------------------------*
+     c     getNrCards    begsr
+     c/EXEC SQL
+     c+ SELECT COUNT(*) INTO :count FROM DEMO/CARDS
+     c+ WHERE CLIENT_CRD = 1
+     c/END-EXEC
+     c                   endsr

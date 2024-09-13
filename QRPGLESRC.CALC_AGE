@@ -1,0 +1,16 @@
+      *
+     HNOMAIN
+      *
+     Dage              S              3P 0
+
+     DCALC_AGE         PR             3i 0
+     Db_date                           D
+      *
+     PCALC_AGE         B                   EXPORT
+     dCALC_AGE         PI             3i 0
+     Db_date                           D
+      /free
+        age = %diff (%date() : b_date : *years);
+        return age;
+      /end-free
+     P                 E

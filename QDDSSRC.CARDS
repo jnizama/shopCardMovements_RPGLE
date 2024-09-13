@@ -1,0 +1,7 @@
+                                            UNIQUE
+                R CARDR
+                  ID_CRD        10P
+                  CLIENT_CRDR               REFFLD(ID_CLI DEMO/CLIENTS )
+                  SHOP_CRD  R               REFFLD(ID_SHP DEMO/SHOP )
+                  DATE_CRD        L         DATFMT(*EUR)
+                K ID_CRD

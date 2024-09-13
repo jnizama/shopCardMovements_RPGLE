@@ -1,0 +1,45 @@
+     A*%%TS  SD  20070809  151738  T2AB11      REL-V5R3M0  5722-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CF03(03 'EXIT')
+     A          R BOTTOM
+     A*%%TS  SD  20070807  143224  T2AB11      REL-V5R3M0  5722-WDS
+     A                                      OVERLAY
+     A                                 22  2'__________________________________-
+     A                                      ___________________________________-
+     A                                      __________'
+     A                                 23  6'F3=Exit'
+     A                                      COLOR(BLU)
+     A          R TOP
+     A*%%TS  SD  20070807  160913  T2AB11      REL-V5R3M0  5722-WDS
+     A                                      OVERLAY
+     A                                  1 27'List of Cards by Client'
+     A          R LIST                      SFL
+     A*%%TS  SD  20070809  151738  T2AB11      REL-V5R3M0  5722-WDS
+     A            OPTION         1A  I  9  5
+     A            ID_CRD    R        O  9 12REFFLD(CLICARD/ID_CRD DEMO/CLICARD)
+     A            SHOP_CRD  R        O  9 27REFFLD(CLICARD/SHOP_CRD DEMO/CLICAR-
+     A                                      D)
+     A            NAME_SHP  R        O  9 42REFFLD(CLICARD/NAME_SHP DEMO/CLICAR-
+     A                                      D)
+     A          R SFLCTL                    SFLCTL(LIST)
+     A*%%TS  SD  20070807  165717  T2AB11      REL-V5R3M0  5722-WDS
+     A                                      SFLSIZ(9999)
+     A                                      SFLPAG(0009)
+     A                                      OVERLAY
+     A  30                                  SFLDSP
+     A  31                                  SFLDSPCTL
+     A  35                                  SFLCLR
+     A  33                                  SFLEND(*MORE)
+     A                                  4  8'Client Nr.'
+     A            ID_CLI    R        B  4 19REFFLD(CLICARD/ID_CLI DEMO/CLICARD)
+     A  90                                  ERRMSG('No Data Found')
+     A                                  6  4'Op.'
+     A                                  6 12'Card Nr.'
+     A                                  6 27'Shop Nr.'
+     A                                  6 42'Shop Name'
+     A                                  7  2'__________________________________-
+     A                                      ___________________________________-
+     A                                      __________'
+     A            RRN            4S 0H      SFLRCDNBR(CURSOR)

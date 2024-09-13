@@ -1,0 +1,36 @@
+     A*%%TS  SD  20070807  111119  T2AB11      REL-V5R3M0  5722-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CF03(03 'Exit')
+     A          R TOP
+     A*%%TS  SD  20070807  111119  T2AB11      REL-V5R3M0  5722-WDS
+     A                                      OVERLAY
+     A                                  1 65USER
+     A                                  3 27'Client Details:'
+     A          R BOTTOM
+     A*%%TS  SD  20070807  111119  T2AB11      REL-V5R3M0  5722-WDS
+     A                                      OVERLAY
+     A                                 22  2'__________________________________-
+     A                                      ___________________________________-
+     A                                      __________'
+     A                                 23  4'F3=Exit'
+     A                                      COLOR(BLU)
+     A          R MIDDLE
+     A*%%TS  SD  20070807  111119  T2AB11      REL-V5R3M0  5722-WDS
+     A                                      OVERLAY
+     A                                  8 13'ID:'
+     A                                  9 13'Name:'
+     A                                 10 13'Birthday:'
+     A                                 11 13'Phone Nr:'
+     A            ID_CLI    R        O  8 23REFFLD(CLIENTS/ID_CLI DEMO/CLIENTS)
+     A            NAME_CLI  R        O  9 23REFFLD(CLIENTS/NAME_CLI DEMO/CLIENT-
+     A                                      S)
+     A            BIRTH_CLI R        O 10 23REFFLD(CLIENTS/BIRTH_CLI DEMO/CLIEN-
+     A                                      TS)
+     A                                      DATFMT(*ISO)
+     A            PHONE_CLI R        O 11 23REFFLD(CLIENTS/PHONE_CLI DEMO/CLIEN-
+     A                                      TS)
+     A                                 15 31'Delete? (s/n)'
+     A            OPTION         1A  I 15 47CHECK(AB)
+     A                                      VALUES('s' 'S' 'n' 'N')

@@ -1,0 +1,6 @@
+                                            UNIQUE
+                R SHOPR
+                  ID_SHP        10P
+                  NAME_SHP      25A
+                  MANAGER_SH    50A
+                K ID_SHP
